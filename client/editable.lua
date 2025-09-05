@@ -1,3 +1,5 @@
+print('^2[INFO] ak47_usabledrugs client script starting...^0')
+
 function isPlayerDead()
     return IsEntityDead(GetPlayerPed(-1))
 end
