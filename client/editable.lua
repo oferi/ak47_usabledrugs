@@ -34,10 +34,14 @@ end
 -- Drug usage events for ox_inventory
 RegisterNetEvent('ak47_druglabs:useWeed')
 AddEventHandler('ak47_druglabs:useWeed', function(item)
+    print('^2[DEBUG] Client received weed event^0')
     if not IsAnimated then
+        print('^3[DEBUG] Applying weed effects^0')
         TriggerServerEvent('ak47_druglabs:applyEffects', 'weed')
         TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['weed_use'], 'Weed Pooch', Config.Weed.time), 'success')
         -- Add any additional client-side effects here
+    else
+        print('^1[DEBUG] Player is already animated, skipping weed effects^0')
     end
 end)
 
@@ -102,3 +106,9 @@ AddEventHandler('ak47_druglabs:useMeth', function(item)
         -- Add any additional client-side effects here
     end
 end)
+
+-- Debug command to reset animation state
+RegisterCommand('resetdrugs', function()
+    IsAnimated = false
+    print('^2[DEBUG] Animation state reset^0')
+end, false)
