@@ -209,6 +209,26 @@ RegisterCommand('testweed', function(source, args, rawCommand)
     TriggerClientEvent('ak47_druglabs:useWeed', player, {name = 'weed_pooch'})
 end, false)
 
+-- Test command to make items usable
+RegisterCommand('makeusable', function(source, args, rawCommand)
+    local player = source
+    if not player then return end
+    
+    print('^2[DEBUG] Making items usable for player ' .. player .. '^0')
+    
+    -- Try to make items usable by setting their metadata
+    for itemName, _ in pairs(Config.Items) do
+        print('^3[DEBUG] Making ' .. itemName .. ' usable^0')
+        
+        -- Try different methods to make items usable
+        local success1 = ox_inventory:SetItemMetadata(player, itemName, {usable = true})
+        local success2 = ox_inventory:SetItemMetadata(player, itemName, {canUse = true})
+        local success3 = ox_inventory:SetItemMetadata(player, itemName, {useable = true})
+        
+        print('^3[DEBUG] ' .. itemName .. ' - usable: ' .. tostring(success1) .. ', canUse: ' .. tostring(success2) .. ', useable: ' .. tostring(success3) .. '^0')
+    end
+end, false)
+
 -- Debug command to check ox_inventory events
 RegisterCommand('debugox', function(source, args, rawCommand)
     local player = source
@@ -239,6 +259,21 @@ RegisterCommand('debugall', function(source, args, rawCommand)
             print('^3[DEBUG] ox_inventory.' .. tostring(k) .. ' = ' .. tostring(type(v)) .. '^0')
         end
         print('^2[DEBUG] Total exports found: ' .. exportCount .. '^0')
+        
+        -- Try alternative export methods
+        print('^3[DEBUG] Trying alternative export methods...^0')
+        local alt1 = exports['ox_inventory']
+        local alt2 = GetResourceKvpString('ox_inventory')
+        local alt3 = GetResourceState('ox_inventory')
+        print('^3[DEBUG] exports["ox_inventory"]: ' .. tostring(alt1 ~= nil) .. '^0')
+        print('^3[DEBUG] GetResourceState: ' .. tostring(alt3) .. '^0')
+        
+        -- Check if it's a function-based export
+        if type(ox_inventory) == 'function' then
+            print('^3[DEBUG] ox_inventory is a function, trying to call it^0')
+            local result = ox_inventory()
+            print('^3[DEBUG] Function call result: ' .. tostring(result) .. '^0')
+        end
     else
         print('^1[DEBUG] ox_inventory export not found^0')
     end
