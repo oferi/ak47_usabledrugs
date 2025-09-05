@@ -8,7 +8,16 @@ if not Config then
 else
     print('^2[INFO] Config loaded successfully^0')
     if Config.Items then
-        print('^2[INFO] Config.Items found with ' .. #Config.Items .. ' items^0')
+        local itemCount = 0
+        for _ in pairs(Config.Items) do
+            itemCount = itemCount + 1
+        end
+        print('^2[INFO] Config.Items found with ' .. itemCount .. ' items^0')
+        
+        -- Debug: Print all items
+        for itemName, itemValue in pairs(Config.Items) do
+            print('^3[DEBUG] Item: ' .. itemName .. ' = ' .. itemValue .. '^0')
+        end
     else
         print('^1[ERROR] Config.Items not found!^0')
         return
@@ -26,7 +35,11 @@ else
 end
 
 -- Register usable items with ox_inventory (compatible with older versions)
-print('^3[INFO] Registering ' .. #Config.Items .. ' usable items...^0')
+local itemCount = 0
+for _ in pairs(Config.Items) do
+    itemCount = itemCount + 1
+end
+print('^3[INFO] Registering ' .. itemCount .. ' usable items...^0')
 
 -- Check if RegisterUsableItem exists (newer ox_inventory)
 if ox_inventory.RegisterUsableItem then
