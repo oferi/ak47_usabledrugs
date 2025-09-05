@@ -1,7 +1,18 @@
 Config = {}
-Config.SharedObjectName = 'esx:getSharedObject'      -- Leave this if you didn't change shareobject name
-Config.PatreonEmail = 'Your Patrion Email' --Take authorisation with your patreon email.
 
+-- ox_inventory item names for each drug type
+Config.Items = {
+    weed_pooch = 'weed_pooch',
+    coke_pooch = 'coke_pooch',
+    spice_pooch = 'spice_pooch',
+    lean_bottle = 'lean_bottle',
+    double_cup = 'double_cup',
+    xpills = 'xpills',
+    heroin_shot = 'heroin_shot',
+    meth_pooch = 'meth_pooch'
+}
+
+-- Drug effects configuration
 Config.Weed = {
 	tCycle = 'spectator6',
 	tCycleStrength = 0.66,

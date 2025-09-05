@@ -31,58 +31,74 @@ function ShowHelpNotification(msg)
     EndTextCommandDisplayHelp(0, false, true, -1)
 end
 
-RegisterNetEvent('ak47_druglabs:weed_pooch')
-AddEventHandler('ak47_druglabs:weed_pooch', function()
+-- Drug usage events for ox_inventory
+RegisterNetEvent('ak47_druglabs:useWeed')
+AddEventHandler('ak47_druglabs:useWeed', function(item)
     if not IsAnimated then
-        --add anything here if you need when player use this drug
+        TriggerServerEvent('ak47_druglabs:applyEffects', 'weed')
+        TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['weed_use'], 'Weed Pooch', Config.Weed.time), 'success')
+        -- Add any additional client-side effects here
     end
 end)
 
-RegisterNetEvent('ak47_druglabs:coke_pooch')
-AddEventHandler('ak47_druglabs:coke_pooch', function()
+RegisterNetEvent('ak47_druglabs:useCoke')
+AddEventHandler('ak47_druglabs:useCoke', function(item)
     if not IsAnimated then
-        --add anything here if you need when player use this drug
+        TriggerServerEvent('ak47_druglabs:applyEffects', 'coke')
+        TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['coke_use'], 'Coke Pooch', Config.Coke.time), 'success')
+        -- Add any additional client-side effects here
     end
 end)
 
-RegisterNetEvent('ak47_druglabs:spice_pooch')
-AddEventHandler('ak47_druglabs:spice_pooch', function()
+RegisterNetEvent('ak47_druglabs:useSpice')
+AddEventHandler('ak47_druglabs:useSpice', function(item)
     if not IsAnimated then
-        --add anything here if you need when player use this drug
+        TriggerServerEvent('ak47_druglabs:applyEffects', 'spice')
+        TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['spice_use'], 'Spice Pooch', Config.Spice.time), 'success')
+        -- Add any additional client-side effects here
     end
 end)
 
-RegisterNetEvent('ak47_druglabs:lean_bottle')
-AddEventHandler('ak47_druglabs:lean_bottle', function()
+RegisterNetEvent('ak47_druglabs:useLean')
+AddEventHandler('ak47_druglabs:useLean', function(item)
     if not IsAnimated then
-        --add anything here if you need when player use this drug
+        TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['lean_use'], 'Lean Bottle', Config.Lean.time), 'success')
+        -- Add any additional client-side effects here
     end
 end)
 
-RegisterNetEvent('ak47_druglabs:double_cup')
-AddEventHandler('ak47_druglabs:double_cup', function()
+RegisterNetEvent('ak47_druglabs:useDoubleCup')
+AddEventHandler('ak47_druglabs:useDoubleCup', function(item)
     if not IsAnimated then
-        --add anything here if you need when player use this drug
+        TriggerServerEvent('ak47_druglabs:applyEffects', 'double_cup')
+        TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['double_use'], 'Double Cup', Config.DoubleCup.time), 'success')
+        -- Add any additional client-side effects here
     end
 end)
 
-RegisterNetEvent('ak47_druglabs:xpills')
-AddEventHandler('ak47_druglabs:xpills', function()
+RegisterNetEvent('ak47_druglabs:useXPills')
+AddEventHandler('ak47_druglabs:useXPills', function(item)
     if not IsAnimated then
-        --add anything here if you need when player use this drug
+        TriggerServerEvent('ak47_druglabs:applyEffects', 'xpills')
+        TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['xpills_use'], 'X Pills', Config.xPill.time, Config.xPill.runSpeed), 'success')
+        -- Add any additional client-side effects here
     end
 end)
 
-RegisterNetEvent('ak47_druglabs:heroin_shot')
-AddEventHandler('ak47_druglabs:heroin_shot', function()
+RegisterNetEvent('ak47_druglabs:useHeroin')
+AddEventHandler('ak47_druglabs:useHeroin', function(item)
     if not IsAnimated then
-        --add anything here if you need when player use this drug
+        TriggerServerEvent('ak47_druglabs:applyEffects', 'heroin')
+        TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['heroin_use'], 'Heroin Shot', Config.Heroin.time, Config.Heroin.runSpeed), 'success')
+        -- Add any additional client-side effects here
     end
 end)
 
-RegisterNetEvent('ak47_druglabs:meth_pooch')
-AddEventHandler('ak47_druglabs:meth_pooch', function()
+RegisterNetEvent('ak47_druglabs:useMeth')
+AddEventHandler('ak47_druglabs:useMeth', function(item)
     if not IsAnimated then
-        --add anything here if you need when player use this drug
+        TriggerServerEvent('ak47_druglabs:applyEffects', 'meth')
+        TriggerServerEvent('ak47_druglabs:notify', string.format(Locales['meth_use'], 'Meth Pooch', Config.Meth.time), 'success')
+        -- Add any additional client-side effects here
     end
 end)
