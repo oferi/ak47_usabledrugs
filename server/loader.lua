@@ -233,9 +233,12 @@ RegisterCommand('debugall', function(source, args, rawCommand)
     local ox_inventory = exports.ox_inventory
     if ox_inventory then
         print('^2[DEBUG] ox_inventory export found^0')
+        local exportCount = 0
         for k, v in pairs(ox_inventory) do
+            exportCount = exportCount + 1
             print('^3[DEBUG] ox_inventory.' .. tostring(k) .. ' = ' .. tostring(type(v)) .. '^0')
         end
+        print('^2[DEBUG] Total exports found: ' .. exportCount .. '^0')
     else
         print('^1[DEBUG] ox_inventory export not found^0')
     end
@@ -254,6 +257,36 @@ RegisterCommand('debugall', function(source, args, rawCommand)
     print('^3[DEBUG] Testing direct item addition...^0')
     local added = ox_inventory:AddItem(player, 'weed_pooch', 1)
     print('^3[DEBUG] Item addition result: ' .. tostring(added) .. '^0')
+end, false)
+
+-- Event listener debug command
+RegisterCommand('listenox', function(source, args, rawCommand)
+    local player = source
+    if not player then return end
+    
+    print('^2[DEBUG] Setting up ox_inventory event listeners for player ' .. player .. '^0')
+    
+    -- Listen for all possible ox_inventory events
+    local events = {
+        'ox_inventory:useItem',
+        'ox_inventory:itemUsed',
+        'ox_inventory:use',
+        'ox_inventory:used',
+        'inventory:useItem',
+        'inventory:itemUsed',
+        'inventory:use',
+        'inventory:used'
+    }
+    
+    for _, eventName in ipairs(events) do
+        RegisterNetEvent(eventName, function(...)
+            print('^2[DEBUG] Event triggered: ' .. eventName .. '^0')
+            print('^3[DEBUG] Event data: ' .. json.encode({...}) .. '^0')
+        end)
+        print('^3[DEBUG] Listening for event: ' .. eventName .. '^0')
+    end
+    
+    print('^2[DEBUG] Event listeners set up. Now try using an item from inventory.^0')
 end, false)
 
 print('^2[INFO] ak47_usabledrugs server script loaded successfully^0')
