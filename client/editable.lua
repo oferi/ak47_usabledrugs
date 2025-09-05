@@ -1,5 +1,8 @@
 print('^2[INFO] ak47_usabledrugs client script starting...^0')
 
+-- Animation state tracking (moved from loader.lua)
+IsAnimated = false
+
 function isPlayerDead()
     return IsEntityDead(GetPlayerPed(-1))
 end

@@ -14,8 +14,7 @@ Citizen.CreateThread(function()
     print('^2[INFO] ak47_usabledrugs loaded successfully with ox_inventory support^0')
 end)
 
--- Animation state tracking
-IsAnimated = false
+-- Animation state tracking (moved to editable.lua)
 
 -- Function to play drug use animation
 function PlayDrugAnimation(animDict, animName, duration)

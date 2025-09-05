@@ -41,13 +41,15 @@ for _ in pairs(Config.Items) do
 end
 print('^3[INFO] Registering ' .. itemCount .. ' usable items...^0')
 
--- Check if RegisterUsableItem exists (newer ox_inventory)
-if ox_inventory.RegisterUsableItem then
-    print('^2[INFO] Using modern ox_inventory RegisterUsableItem method^0')
+-- Register usable items with ox_inventory (legacy method)
+print('^3[INFO] Using legacy ox_inventory method^0')
+
+for itemName, _ in pairs(Config.Items) do
+    print('^3[INFO] Registering item: ' .. itemName .. '^0')
     
-    for itemName, _ in pairs(Config.Items) do
-        print('^3[INFO] Registering item: ' .. itemName .. '^0')
-        ox_inventory:RegisterUsableItem(itemName, function(source, item)
+    -- Register the item as usable using the legacy method
+    RegisterNetEvent('ox_inventory:useItem', function(item)
+        if item.name == itemName then
             local player = source
             if not player then return end
             
@@ -83,56 +85,8 @@ if ox_inventory.RegisterUsableItem then
             -- Remove the item from inventory
             ox_inventory:RemoveItem(player, itemName, 1)
             print('^2[DEBUG] Item ' .. itemName .. ' removed from player ' .. player .. '^0')
-        end)
-    end
-else
-    print('^3[INFO] Using legacy ox_inventory method (RegisterUsableItem not found)^0')
-    
-    -- Legacy method for older ox_inventory versions
-    for itemName, _ in pairs(Config.Items) do
-        print('^3[INFO] Registering item: ' .. itemName .. '^0')
-        
-        -- Register the item as usable using the legacy method
-        RegisterNetEvent('ox_inventory:useItem', function(item)
-            if item.name == itemName then
-                local player = source
-                if not player then return end
-                
-                print('^2[DEBUG] Player ' .. player .. ' used item: ' .. itemName .. '^0')
-                
-                -- Trigger the appropriate client event based on the item
-                if itemName == 'weed_pooch' then
-                    print('^3[DEBUG] Triggering weed event for player ' .. player .. '^0')
-                    TriggerClientEvent('ak47_druglabs:useWeed', player, item)
-                elseif itemName == 'coke_pooch' then
-                    print('^3[DEBUG] Triggering coke event for player ' .. player .. '^0')
-                    TriggerClientEvent('ak47_druglabs:useCoke', player, item)
-                elseif itemName == 'spice_pooch' then
-                    print('^3[DEBUG] Triggering spice event for player ' .. player .. '^0')
-                    TriggerClientEvent('ak47_druglabs:useSpice', player, item)
-                elseif itemName == 'lean_bottle' then
-                    print('^3[DEBUG] Triggering lean event for player ' .. player .. '^0')
-                    TriggerClientEvent('ak47_druglabs:useLean', player, item)
-                elseif itemName == 'double_cup' then
-                    print('^3[DEBUG] Triggering double cup event for player ' .. player .. '^0')
-                    TriggerClientEvent('ak47_druglabs:useDoubleCup', player, item)
-                elseif itemName == 'xpills' then
-                    print('^3[DEBUG] Triggering xpills event for player ' .. player .. '^0')
-                    TriggerClientEvent('ak47_druglabs:useXPills', player, item)
-                elseif itemName == 'heroin_shot' then
-                    print('^3[DEBUG] Triggering heroin event for player ' .. player .. '^0')
-                    TriggerClientEvent('ak47_druglabs:useHeroin', player, item)
-                elseif itemName == 'meth_pooch' then
-                    print('^3[DEBUG] Triggering meth event for player ' .. player .. '^0')
-                    TriggerClientEvent('ak47_druglabs:useMeth', player, item)
-                end
-                
-                -- Remove the item from inventory
-                ox_inventory:RemoveItem(player, itemName, 1)
-                print('^2[DEBUG] Item ' .. itemName .. ' removed from player ' .. player .. '^0')
-            end
-        end)
-    end
+        end
+    end)
 end
 
 -- Server-side effects handler
