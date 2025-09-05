@@ -8,6 +8,7 @@ return {
         weight = 10,
         stack = true,
         close = true,
+        usable = true,
         description = 'A small bag of weed',
         client = {
             image = 'weed_pooch.png',
@@ -20,6 +21,7 @@ return {
         weight = 10,
         stack = true,
         close = true,
+        usable = true,
         description = 'A small bag of cocaine',
         client = {
             image = 'coke_pooch.png',
@@ -32,6 +34,7 @@ return {
         weight = 10,
         stack = true,
         close = true,
+        usable = true,
         description = 'A small bag of spice',
         client = {
             image = 'spice_pooch.png',
@@ -44,6 +47,7 @@ return {
         weight = 200,
         stack = true,
         close = true,
+        usable = true,
         description = 'A bottle of lean',
         client = {
             image = 'lean_bottle.png',
@@ -56,6 +60,7 @@ return {
         weight = 100,
         stack = true,
         close = true,
+        usable = true,
         description = 'A double cup drink',
         client = {
             image = 'double_cup.png',
@@ -68,6 +73,7 @@ return {
         weight = 5,
         stack = true,
         close = true,
+        usable = true,
         description = 'Ecstasy pills',
         client = {
             image = 'xpills.png',
@@ -80,6 +86,7 @@ return {
         weight = 50,
         stack = true,
         close = true,
+        usable = true,
         description = 'A heroin injection',
         client = {
             image = 'heroin_shot.png',
@@ -92,6 +99,7 @@ return {
         weight = 10,
         stack = true,
         close = true,
+        usable = true,
         description = 'A small bag of methamphetamine',
         client = {
             image = 'meth_pooch.png',

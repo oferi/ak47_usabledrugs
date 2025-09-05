@@ -209,23 +209,20 @@ RegisterCommand('testweed', function(source, args, rawCommand)
     TriggerClientEvent('ak47_druglabs:useWeed', player, {name = 'weed_pooch'})
 end, false)
 
--- Test command to make items usable
-RegisterCommand('makeusable', function(source, args, rawCommand)
+-- Test command to check if items are usable
+RegisterCommand('checkusable', function(source, args, rawCommand)
     local player = source
     if not player then return end
     
-    print('^2[DEBUG] Making items usable for player ' .. player .. '^0')
+    print('^2[DEBUG] Checking if items are usable for player ' .. player .. '^0')
     
-    -- Try to make items usable by setting their metadata
+    -- Check if items are usable by trying to get their metadata
     for itemName, _ in pairs(Config.Items) do
-        print('^3[DEBUG] Making ' .. itemName .. ' usable^0')
+        print('^3[DEBUG] Checking ' .. itemName .. '^0')
         
-        -- Try different methods to make items usable
-        local success1 = ox_inventory:SetItemMetadata(player, itemName, {usable = true})
-        local success2 = ox_inventory:SetItemMetadata(player, itemName, {canUse = true})
-        local success3 = ox_inventory:SetItemMetadata(player, itemName, {useable = true})
-        
-        print('^3[DEBUG] ' .. itemName .. ' - usable: ' .. tostring(success1) .. ', canUse: ' .. tostring(success2) .. ', useable: ' .. tostring(success3) .. '^0')
+        -- Try to get item info
+        local itemInfo = ox_inventory:GetItem(player, itemName, nil, true)
+        print('^3[DEBUG] ' .. itemName .. ' info: ' .. tostring(itemInfo) .. '^0')
     end
 end, false)
 
