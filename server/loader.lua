@@ -221,4 +221,39 @@ RegisterCommand('debugox', function(source, args, rawCommand)
     TriggerEvent('ox_inventory:useItem', {name = 'weed_pooch'})
 end, false)
 
+-- Comprehensive debug command
+RegisterCommand('debugall', function(source, args, rawCommand)
+    local player = source
+    if not player then return end
+    
+    print('^2[DEBUG] Comprehensive debug started by player ' .. player .. '^0')
+    
+    -- Check ox_inventory exports
+    print('^3[DEBUG] Checking ox_inventory exports...^0')
+    local ox_inventory = exports.ox_inventory
+    if ox_inventory then
+        print('^2[DEBUG] ox_inventory export found^0')
+        for k, v in pairs(ox_inventory) do
+            print('^3[DEBUG] ox_inventory.' .. tostring(k) .. ' = ' .. tostring(type(v)) .. '^0')
+        end
+    else
+        print('^1[DEBUG] ox_inventory export not found^0')
+    end
+    
+    -- Check if player has items
+    print('^3[DEBUG] Checking player inventory...^0')
+    local hasWeed = ox_inventory:GetItem(player, 'weed_pooch', nil, true)
+    print('^3[DEBUG] Player has weed_pooch: ' .. tostring(hasWeed) .. '^0')
+    
+    -- Test direct item removal
+    print('^3[DEBUG] Testing direct item removal...^0')
+    local removed = ox_inventory:RemoveItem(player, 'weed_pooch', 1)
+    print('^3[DEBUG] Item removal result: ' .. tostring(removed) .. '^0')
+    
+    -- Test direct item addition
+    print('^3[DEBUG] Testing direct item addition...^0')
+    local added = ox_inventory:AddItem(player, 'weed_pooch', 1)
+    print('^3[DEBUG] Item addition result: ' .. tostring(added) .. '^0')
+end, false)
+
 print('^2[INFO] ak47_usabledrugs server script loaded successfully^0')

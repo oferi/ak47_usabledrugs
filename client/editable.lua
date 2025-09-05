@@ -16,7 +16,22 @@ function showNotification(text, eType, time)
 	elseif eType == 'success' then
 		message = '~g~'..message
 	end
-	ShowNotificationDefault(message)
+	
+	-- Try different notification methods
+	if GetResourceState('esx_notify') == 'started' then
+		-- Use ESX notify if available
+		ESX.ShowNotification(message)
+	elseif GetResourceState('ox_lib') == 'started' then
+		-- Use ox_lib notify if available
+		exports.ox_lib:notify({
+			title = 'Drug System',
+			description = message,
+			type = eType or 'inform'
+		})
+	else
+		-- Fallback to default GTA notification
+		ShowNotificationDefault(message)
+	end
 end
 
 RegisterNetEvent('ak47_druglabs:showNotification')
