@@ -41,51 +41,97 @@ for _ in pairs(Config.Items) do
 end
 print('^3[INFO] Registering ' .. itemCount .. ' usable items...^0')
 
--- Register usable items with ox_inventory (legacy method)
-print('^3[INFO] Using legacy ox_inventory method^0')
+-- Register usable items with ox_inventory (alternative method)
+print('^3[INFO] Using alternative ox_inventory method^0')
 
+-- Register a single event handler for all items
+RegisterNetEvent('ox_inventory:useItem', function(item)
+    local player = source
+    if not player then return end
+    
+    print('^2[DEBUG] Player ' .. player .. ' used item: ' .. (item.name or 'unknown') .. '^0')
+    
+    -- Check if this is one of our drug items
+    local itemName = item.name
+    if Config.Items[itemName] then
+        print('^3[DEBUG] Item ' .. itemName .. ' is a registered drug item^0')
+        
+        -- Trigger the appropriate client event based on the item
+        if itemName == 'weed_pooch' then
+            print('^3[DEBUG] Triggering weed event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useWeed', player, item)
+        elseif itemName == 'coke_pooch' then
+            print('^3[DEBUG] Triggering coke event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useCoke', player, item)
+        elseif itemName == 'spice_pooch' then
+            print('^3[DEBUG] Triggering spice event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useSpice', player, item)
+        elseif itemName == 'lean_bottle' then
+            print('^3[DEBUG] Triggering lean event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useLean', player, item)
+        elseif itemName == 'double_cup' then
+            print('^3[DEBUG] Triggering double cup event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useDoubleCup', player, item)
+        elseif itemName == 'xpills' then
+            print('^3[DEBUG] Triggering xpills event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useXPills', player, item)
+        elseif itemName == 'heroin_shot' then
+            print('^3[DEBUG] Triggering heroin event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useHeroin', player, item)
+        elseif itemName == 'meth_pooch' then
+            print('^3[DEBUG] Triggering meth event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useMeth', player, item)
+        end
+        
+        -- Remove the item from inventory
+        ox_inventory:RemoveItem(player, itemName, 1)
+        print('^2[DEBUG] Item ' .. itemName .. ' removed from player ' .. player .. '^0')
+    else
+        print('^1[DEBUG] Item ' .. itemName .. ' is not a registered drug item^0')
+    end
+end)
+
+-- Also try registering with the items directly
 for itemName, _ in pairs(Config.Items) do
     print('^3[INFO] Registering item: ' .. itemName .. '^0')
     
-    -- Register the item as usable using the legacy method
-    RegisterNetEvent('ox_inventory:useItem', function(item)
-        if item.name == itemName then
-            local player = source
-            if not player then return end
-            
-            print('^2[DEBUG] Player ' .. player .. ' used item: ' .. itemName .. '^0')
-            
-            -- Trigger the appropriate client event based on the item
-            if itemName == 'weed_pooch' then
-                print('^3[DEBUG] Triggering weed event for player ' .. player .. '^0')
-                TriggerClientEvent('ak47_druglabs:useWeed', player, item)
-            elseif itemName == 'coke_pooch' then
-                print('^3[DEBUG] Triggering coke event for player ' .. player .. '^0')
-                TriggerClientEvent('ak47_druglabs:useCoke', player, item)
-            elseif itemName == 'spice_pooch' then
-                print('^3[DEBUG] Triggering spice event for player ' .. player .. '^0')
-                TriggerClientEvent('ak47_druglabs:useSpice', player, item)
-            elseif itemName == 'lean_bottle' then
-                print('^3[DEBUG] Triggering lean event for player ' .. player .. '^0')
-                TriggerClientEvent('ak47_druglabs:useLean', player, item)
-            elseif itemName == 'double_cup' then
-                print('^3[DEBUG] Triggering double cup event for player ' .. player .. '^0')
-                TriggerClientEvent('ak47_druglabs:useDoubleCup', player, item)
-            elseif itemName == 'xpills' then
-                print('^3[DEBUG] Triggering xpills event for player ' .. player .. '^0')
-                TriggerClientEvent('ak47_druglabs:useXPills', player, item)
-            elseif itemName == 'heroin_shot' then
-                print('^3[DEBUG] Triggering heroin event for player ' .. player .. '^0')
-                TriggerClientEvent('ak47_druglabs:useHeroin', player, item)
-            elseif itemName == 'meth_pooch' then
-                print('^3[DEBUG] Triggering meth event for player ' .. player .. '^0')
-                TriggerClientEvent('ak47_druglabs:useMeth', player, item)
-            end
-            
-            -- Remove the item from inventory
-            ox_inventory:RemoveItem(player, itemName, 1)
-            print('^2[DEBUG] Item ' .. itemName .. ' removed from player ' .. player .. '^0')
+    -- Try different event names that might work
+    RegisterNetEvent('ox_inventory:useItem:' .. itemName, function(item)
+        local player = source
+        if not player then return end
+        
+        print('^2[DEBUG] Player ' .. player .. ' used item via direct event: ' .. itemName .. '^0')
+        
+        -- Trigger the appropriate client event based on the item
+        if itemName == 'weed_pooch' then
+            print('^3[DEBUG] Triggering weed event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useWeed', player, item)
+        elseif itemName == 'coke_pooch' then
+            print('^3[DEBUG] Triggering coke event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useCoke', player, item)
+        elseif itemName == 'spice_pooch' then
+            print('^3[DEBUG] Triggering spice event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useSpice', player, item)
+        elseif itemName == 'lean_bottle' then
+            print('^3[DEBUG] Triggering lean event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useLean', player, item)
+        elseif itemName == 'double_cup' then
+            print('^3[DEBUG] Triggering double cup event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useDoubleCup', player, item)
+        elseif itemName == 'xpills' then
+            print('^3[DEBUG] Triggering xpills event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useXPills', player, item)
+        elseif itemName == 'heroin_shot' then
+            print('^3[DEBUG] Triggering heroin event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useHeroin', player, item)
+        elseif itemName == 'meth_pooch' then
+            print('^3[DEBUG] Triggering meth event for player ' .. player .. '^0')
+            TriggerClientEvent('ak47_druglabs:useMeth', player, item)
         end
+        
+        -- Remove the item from inventory
+        ox_inventory:RemoveItem(player, itemName, 1)
+        print('^2[DEBUG] Item ' .. itemName .. ' removed from player ' .. player .. '^0')
     end)
 end
 
@@ -152,6 +198,27 @@ RegisterCommand('testdrugsystem', function(source, args, rawCommand)
     
     print('^2[DEBUG] Test command executed by player ' .. player .. '^0')
     TriggerClientEvent('ak47_druglabs:showNotification', player, 'Drug system is working!', 'success')
+end, false)
+
+-- Test command to manually trigger drug effects
+RegisterCommand('testweed', function(source, args, rawCommand)
+    local player = source
+    if not player then return end
+    
+    print('^2[DEBUG] Manual weed test executed by player ' .. player .. '^0')
+    TriggerClientEvent('ak47_druglabs:useWeed', player, {name = 'weed_pooch'})
+end, false)
+
+-- Debug command to check ox_inventory events
+RegisterCommand('debugox', function(source, args, rawCommand)
+    local player = source
+    if not player then return end
+    
+    print('^2[DEBUG] Debug command executed by player ' .. player .. '^0')
+    print('^3[DEBUG] Testing ox_inventory events...^0')
+    
+    -- Test if we can trigger the useItem event manually
+    TriggerEvent('ox_inventory:useItem', {name = 'weed_pooch'})
 end, false)
 
 print('^2[INFO] ak47_usabledrugs server script loaded successfully^0')
